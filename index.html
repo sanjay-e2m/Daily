@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Work Update Tool</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .main-content {
+            display: block;
+            gap: 0;
+            min-height: 600px;
+        }
+
+        .input-section {
+            display: none;
+        }
+
+        .output-section {
+            padding: 40px;
+            background: white;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #374151;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .status-select {
+            position: relative;
+        }
+
+        .status-select select {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 20px;
+            padding-right: 50px;
+        }
+
+        .pause-reason {
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .progress-container {
+            position: relative;
+            margin-top: 10px;
+        }
+
+        .progress-input {
+            width: 80px !important;
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .progress-bar {
+            width: calc(100% - 100px);
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            overflow: hidden;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #10b981, #34d399);
+            width: 0%;
+            transition: width 0.3s ease;
+            border-radius: 4px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(79, 70, 229, 0.3);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #10b981, #34d399);
+            margin-left: 10px;
+        }
+
+        .btn-secondary:hover {
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+        }
+
+        .output-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .output-header h2 {
+            color: #1f2937;
+            font-size: 1.5rem;
+        }
+
+        .date-display {
+            background: linear-gradient(135deg, #f59e0b, #f97316);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .work-item {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .project-group {
+            margin-bottom: 30px;
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .project-header {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .project-header h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin: 0;
+        }
+
+        .tasks-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .task-item {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 15px;
+            margin-left: 20px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .task-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .task-item:before {
+            content: '•';
+            position: absolute;
+            left: -15px;
+            top: 15px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #4f46e5;
+        }
+
+        .task-header {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 10px;
+        }
+
+        .task-details {
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+
+        .task-progress {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .task-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .edit-btn {
+            background: #4f46e5;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .edit-btn:hover {
+            background: #3730a3;
+            transform: translateY(-1px);
+        }
+        
+        .remove-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .remove-btn:hover {
+            background: #dc2626;
+            transform: translateY(-1px);
+        }
+
+        .work-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .work-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .work-item-title {
+            font-weight: 700;
+            color: #1f2937;
+            font-size: 1.1rem;
+        }
+
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-done {
+            background: linear-gradient(135deg, #10b981, #34d399);
+            color: white;
+        }
+
+        .status-inprogress {
+            background: linear-gradient(135deg, #f59e0b, #f97316);
+            color: white;
+        }
+
+        .status-paused {
+            background: linear-gradient(135deg, #ef4444, #f87171);
+            color: white;
+        }
+
+        .work-item-details {
+            color: #6b7280;
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        .work-item-progress {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .progress-text {
+            font-weight: 600;
+            color: #4f46e5;
+        }
+
+        .pause-reason-text {
+            background: #fef2f2;
+            border-left: 4px solid #ef4444;
+            padding: 10px 15px;
+            border-radius: 0 8px 8px 0;
+            color: #dc2626;
+            font-style: italic;
+            margin-top: 10px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #9ca3af;
+        }
+
+        .empty-state svg {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .export-section {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px solid #e5e7eb;
+        }
+
+        .export-preview {
+            background: #1f2937;
+            color: #f9fafb;
+            padding: 20px;
+            border-radius: 12px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            white-space: pre-line;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            margin-top: 20px;
+        }
+        
+        .export-preview strong,
+        .export-preview b {
+            font-weight: bold;
+            color: #fbbf24;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .header p {
+                font-size: 1rem;
+            }
+            
+            .output-section {
+                padding: 20px;
+            }
+            
+            .modal-content {
+                width: 95%;
+                margin: 2% auto;
+            }
+            
+            .modal-body {
+                padding: 20px;
+            }
+            
+            .work-item {
+                padding: 15px;
+            }
+            
+            .work-item-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .status-badge {
+                align-self: flex-start;
+            }
+            
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+            
+            .date-display {
+                font-size: 0.8rem;
+                padding: 6px 12px;
+            }
+            
+            .task-actions {
+                flex-direction: row;
+                gap: 6px;
+            }
+            
+            .edit-btn, .remove-btn {
+                flex: 1;
+                padding: 10px 12px;
+                font-size: 0.8rem;
+                text-align: center;
+            }
+            
+            .work-item-progress {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+            
+            .progress-bar {
+                width: 100% !important;
+            }
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 0;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.3s ease;
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .close:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .progress-group {
+            display: block;
+            transition: all 0.3s ease;
+        }
+
+        .progress-group.hidden {
+            display: none;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📝 Daily Work Update Tool</h1>
+            <p>Track your progress, manage tasks, and generate professional reports</p>
+        </div>
+
+        <div class="main-content">
+            <div class="input-section">
+                <form id="workForm">
+                    <div class="form-group">
+                        <label>Project Name</label>
+                        <select id="projectSelect" style="display: none;">
+                            <option value="">Select existing project...</option>
+                        </select>
+                        <input type="text" id="projectName" placeholder="Enter project name..." required>
+                        <button type="button" id="toggleProjectInput" class="btn" style="margin-top: 10px; padding: 8px 16px; font-size: 0.8rem; display: none;">Add New Project</button>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Work Details</label>
+                        <textarea id="workDetails" placeholder="Describe the work you've done today..." required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Status</label>
+                        <div class="status-select">
+                            <select id="status" required>
+                                <option value="">Select status...</option>
+                                <option value="done">✅ Done</option>
+                                <option value="inprogress">🔄 In Progress</option>
+                                <option value="paused">⏸️ Paused</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group pause-reason" id="pauseReasonGroup">
+                        <label>Pause Reason</label>
+                        <textarea id="pauseReason" placeholder="Why is this task paused?"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Progress (%)</label>
+                        <div class="progress-container">
+                            <input type="number" id="progress" class="progress-input" min="0" max="100" value="0">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="progressFill"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Next Day Plan (Optional)</label>
+                        <textarea id="nextDayPlan" placeholder="Add specific plans for tomorrow..."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn">Add Work Item</button>
+                    <button type="button" class="btn btn-secondary" onclick="clearForm()">Clear Form</button>
+                    <button type="button" class="btn" style="background: #ef4444; margin-left: 10px;" onclick="clearAll()">Clear All Data</button>
+                </form>
+            </div>
+
+            <div class="output-section">
+                <div class="output-header">
+                    <h2>Today's Work Items</h2>
+                    <div class="date-display" id="currentDate"></div>
+                </div>
+
+                <div id="workItemsList">
+                    <div class="empty-state">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012-2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
+                        </svg>
+                        <h3>No work items yet</h3>
+                        <p>Add your first work item to get started!</p>
+                    </div>
+                </div>
+
+                <div class="export-section">
+                    <button class="btn" onclick="openTaskModal()">Add Task</button>
+                    <button class="btn" onclick="generateReport()">Generate Daily Report</button>
+                    <button class="btn btn-secondary" onclick="copyReport()">Copy Report</button>
+                    
+                    <div class="export-preview" id="reportPreview" style="display: none;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Task Modal -->
+    <div id="taskModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Add New Task</h2>
+                <button class="close" onclick="closeTaskModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="modalWorkForm">
+                    <div class="form-group">
+                        <label>Project Name</label>
+                        <select id="modalProjectSelect" style="display: none;">
+                            <option value="">Select existing project...</option>
+                        </select>
+                        <input type="text" id="modalProjectName" placeholder="Enter project name..." required>
+                        <button type="button" id="modalToggleProjectInput" class="btn" style="margin-top: 10px; padding: 8px 16px; font-size: 0.8rem; display: none;">Add New Project</button>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Work Details</label>
+                        <textarea id="modalWorkDetails" placeholder="Describe the work you've done today..." required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Status</label>
+                        <div class="status-select">
+                            <select id="modalStatus" required>
+                                <option value="">Select status...</option>
+                                <option value="done">✅ Done</option>
+                                <option value="inprogress">🔄 In Progress</option>
+                                <option value="paused">⏸️ Paused</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group pause-reason" id="modalPauseReasonGroup">
+                        <label>Pause Reason</label>
+                        <textarea id="modalPauseReason" placeholder="Why is this task paused?"></textarea>
+                    </div>
+
+                    <div class="form-group progress-group" id="modalProgressGroup">
+                        <label>Progress (%)</label>
+                        <div class="progress-container">
+                            <input type="number" id="modalProgress" class="progress-input" min="0" max="100" value="0">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="modalProgressFill"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Next Day Plan (Optional)</label>
+                        <textarea id="modalNextDayPlan" placeholder="Add specific plans for tomorrow..."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn" id="modalSubmitBtn">Add Work Item</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeTaskModal()">Cancel</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let workItems = [];
+        let projects = new Set();
+        let nextDayPlans = [];
+        let editingIndex = -1;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateDateDisplay();
+            setupEventListeners();
+        });
+
+        function updateDateDisplay() {
+            const now = new Date();
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            };
+            document.getElementById('currentDate').textContent = now.toLocaleDateString('en-US', options);
+        }
+
+        function setupEventListeners() {
+            // Modal elements
+            const modalForm = document.getElementById('modalWorkForm');
+            const modalStatusSelect = document.getElementById('modalStatus');
+            const modalProgressInput = document.getElementById('modalProgress');
+            const modalProjectSelect = document.getElementById('modalProjectSelect');
+            const modalProjectInput = document.getElementById('modalProjectName');
+            const modalToggleBtn = document.getElementById('modalToggleProjectInput');
+
+            // Modal event listeners
+            modalForm.addEventListener('submit', handleModalFormSubmit);
+            modalStatusSelect.addEventListener('change', handleModalStatusChange);
+            modalProgressInput.addEventListener('input', updateModalProgressBar);
+            modalProjectSelect.addEventListener('change', handleModalProjectSelect);
+            modalToggleBtn.addEventListener('click', toggleModalProjectInput);
+
+            // Close modal when clicking outside
+            window.addEventListener('click', function(event) {
+                const modal = document.getElementById('taskModal');
+                if (event.target === modal) {
+                    closeTaskModal();
+                }
+            });
+        }
+
+        // Modal Functions
+        function openTaskModal(index = -1) {
+            editingIndex = index;
+            const modal = document.getElementById('taskModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const submitBtn = document.getElementById('modalSubmitBtn');
+            
+            // Update project dropdown first
+            updateModalProjectDropdown();
+            
+            if (index >= 0) {
+                // Edit mode
+                modalTitle.textContent = 'Edit Task';
+                submitBtn.textContent = 'Update Task';
+                populateModalForm(workItems[index]);
+            } else {
+                // Add mode
+                modalTitle.textContent = 'Add New Task';
+                submitBtn.textContent = 'Add Work Item';
+                clearModalForm();
+            }
+            
+            modal.style.display = 'block';
+        }
+        
+        function closeTaskModal() {
+            const modal = document.getElementById('taskModal');
+            modal.style.display = 'none';
+            editingIndex = -1;
+            clearModalForm();
+        }
+        
+        function populateModalForm(item) {
+            // Set project name in both input and select
+            const projectSelect = document.getElementById('modalProjectSelect');
+            const projectInput = document.getElementById('modalProjectName');
+            
+            if (projects.has(item.projectName)) {
+                projectSelect.value = item.projectName;
+                projectInput.value = item.projectName;
+            } else {
+                // If project doesn't exist in dropdown, use input field
+                projectSelect.style.display = 'none';
+                projectInput.style.display = 'block';
+                document.getElementById('modalToggleProjectInput').style.display = 'none';
+                projectInput.value = item.projectName;
+            }
+            
+            document.getElementById('modalWorkDetails').value = item.workDetails;
+            document.getElementById('modalStatus').value = item.status;
+            document.getElementById('modalPauseReason').value = item.pauseReason || '';
+            document.getElementById('modalProgress').value = item.progress;
+            
+            // Trigger status change to handle visibility
+            handleModalStatusChange({ target: { value: item.status } });
+            updateModalProgressBar();
+        }
+        
+        function clearModalForm() {
+            document.getElementById('modalWorkForm').reset();
+            document.getElementById('modalPauseReasonGroup').style.display = 'none';
+            document.getElementById('modalProgressGroup').style.display = 'none'; // Hide progress by default
+            document.getElementById('modalProgressFill').style.width = '0%';
+            
+            // Reset project selection visibility
+            const projectSelect = document.getElementById('modalProjectSelect');
+            const projectInput = document.getElementById('modalProjectName');
+            const toggleBtn = document.getElementById('modalToggleProjectInput');
+            
+            if (projects.size > 0) {
+                projectSelect.style.display = 'block';
+                projectInput.style.display = 'none';
+                toggleBtn.style.display = 'inline-block';
+                projectSelect.value = '';
+            } else {
+                projectSelect.style.display = 'none';
+                projectInput.style.display = 'block';
+                toggleBtn.style.display = 'none';
+                projectInput.value = '';
+            }
+        }
+        
+        function handleModalFormSubmit(e) {
+            e.preventDefault();
+            
+            // Get project name from either input or select
+            let projectName = document.getElementById('modalProjectName').value;
+            if (!projectName) {
+                projectName = document.getElementById('modalProjectSelect').value;
+            }
+            
+            // Validate required fields
+            if (!projectName) {
+                showNotification('Please enter a project name!', 'warning');
+                return;
+            }
+            
+            const workDetails = document.getElementById('modalWorkDetails').value;
+            if (!workDetails) {
+                showNotification('Please enter work details!', 'warning');
+                return;
+            }
+            
+            const status = document.getElementById('modalStatus').value;
+            if (!status) {
+                showNotification('Please select a status!', 'warning');
+                return;
+            }
+            
+            const nextDayPlan = document.getElementById('modalNextDayPlan').value;
+            const progressValue = parseInt(document.getElementById('modalProgress').value) || 0;
+            
+            const formData = {
+                projectName: projectName,
+                workDetails: workDetails,
+                status: status,
+                pauseReason: document.getElementById('modalPauseReason').value || '',
+                progress: status === 'done' ? 100 : progressValue,
+                timestamp: editingIndex >= 0 ? workItems[editingIndex].timestamp : new Date()
+            };
+
+            if (editingIndex >= 0) {
+                // Update existing item
+                workItems[editingIndex] = formData;
+                showNotification('Task updated successfully!', 'success');
+            } else {
+                // Add new item
+                workItems.push(formData);
+                showNotification('Work item added successfully!', 'success');
+            }
+            
+            // Add project to the set
+            if (projectName) {
+                projects.add(projectName);
+            }
+            
+            // Store next day plan if provided
+            if (nextDayPlan && nextDayPlan.trim()) {
+                nextDayPlans.push(nextDayPlan.trim());
+            }
+            
+            // Update the display and close modal
+            renderWorkItems();
+            closeTaskModal();
+        }
+        
+        function handleModalStatusChange(e) {
+            const pauseReasonGroup = document.getElementById('modalPauseReasonGroup');
+            const progressGroup = document.getElementById('modalProgressGroup');
+            
+            if (e.target.value === 'paused') {
+                pauseReasonGroup.style.display = 'block';
+                document.getElementById('modalPauseReason').required = true;
+                progressGroup.style.display = 'none'; // Hide progress for paused
+            } else if (e.target.value === 'done') {
+                pauseReasonGroup.style.display = 'none';
+                document.getElementById('modalPauseReason').required = false;
+                document.getElementById('modalPauseReason').value = '';
+                progressGroup.style.display = 'none'; // Hide progress for done
+                document.getElementById('modalProgress').value = 100;
+                updateModalProgressBar();
+            } else if (e.target.value === 'inprogress') {
+                pauseReasonGroup.style.display = 'none';
+                document.getElementById('modalPauseReason').required = false;
+                document.getElementById('modalPauseReason').value = '';
+                progressGroup.style.display = 'block'; // Show progress only for in progress
+            } else {
+                // No status selected
+                pauseReasonGroup.style.display = 'none';
+                progressGroup.style.display = 'none'; // Hide progress by default
+            }
+        }
+        
+        function updateModalProgressBar() {
+            const progress = document.getElementById('modalProgress').value;
+            const progressFill = document.getElementById('modalProgressFill');
+            progressFill.style.width = progress + '%';
+        }
+        
+        function updateModalProjectDropdown() {
+            const projectSelect = document.getElementById('modalProjectSelect');
+            const projectInput = document.getElementById('modalProjectName');
+            const toggleBtn = document.getElementById('modalToggleProjectInput');
+            
+            if (projects.size > 0) {
+                // Update dropdown options
+                projectSelect.innerHTML = '<option value="">Select existing project...</option>' +
+                    Array.from(projects).map(project => 
+                        `<option value="${project}">${project}</option>`
+                    ).join('');
+                    
+                // Show dropdown, hide input
+                projectSelect.style.display = 'block';
+                projectInput.style.display = 'none';
+                toggleBtn.style.display = 'inline-block';
+            } else {
+                // No projects yet, show input field
+                projectSelect.style.display = 'none';
+                projectInput.style.display = 'block';
+                toggleBtn.style.display = 'none';
+            }
+        }
+        
+        function handleModalProjectSelect(e) {
+            const selectedProject = e.target.value;
+            if (selectedProject) {
+                document.getElementById('modalProjectName').value = selectedProject;
+            }
+        }
+        
+        function toggleModalProjectInput() {
+            const projectSelect = document.getElementById('modalProjectSelect');
+            const projectInput = document.getElementById('modalProjectName');
+            const toggleBtn = document.getElementById('modalToggleProjectInput');
+            
+            projectSelect.style.display = 'none';
+            projectInput.style.display = 'block';
+            projectInput.value = '';
+            projectInput.focus();
+            toggleBtn.style.display = 'none';
+        }
+        
+        function clearAll() {
+            if (confirm('Are you sure you want to clear all data? This action cannot be undone.')) {
+                workItems = [];
+                projects.clear();
+                nextDayPlans = [];
+                editingIndex = -1;
+                
+                renderWorkItems();
+                
+                // Clear report preview
+                document.getElementById('reportPreview').style.display = 'none';
+                
+                showNotification('All data cleared successfully!', 'info');
+            }
+        }
+
+        function renderWorkItems() {
+            const container = document.getElementById('workItemsList');
+            
+            console.log('Rendering work items:', workItems.length); // Debug log
+            
+            if (workItems.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012-2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
+                        </svg>
+                        <h3>No work items yet</h3>
+                        <p>Add your first work item to get started!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = workItems.map((item, index) => {
+                console.log('Rendering item:', item); // Debug log
+                return `
+                    <div class="work-item">
+                        <div class="work-item-header">
+                            <div class="work-item-title">${item.projectName || 'No Project'}</div>
+                            <span class="status-badge status-${item.status}">
+                                ${getStatusText(item.status)}
+                            </span>
+                        </div>
+                        <div class="work-item-details">${item.workDetails || 'No details'}</div>
+                        ${item.status === 'inprogress' ? `
+                        <div class="work-item-progress">
+                            <div class="progress-bar" style="width: 200px;">
+                                <div class="progress-fill" style="width: ${item.progress || 0}%"></div>
+                            </div>
+                            <span class="progress-text">${item.progress || 0}%</span>
+                        </div>
+                        ` : item.status === 'done' ? `<div class="work-item-progress"><span class="progress-text" style="color: #10b981; font-weight: bold;">✅ Completed</span></div>` : ''}
+                        ${item.pauseReason ? `<div class="pause-reason-text">Reason: ${item.pauseReason}</div>` : ''}
+                        <div class="task-actions">
+                            <button onclick="openTaskModal(${index})" class="edit-btn">Edit Task</button>
+                            <button onclick="removeWorkItem(${index})" class="remove-btn">Remove</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function getStatusText(status) {
+            const statusMap = {
+                'done': '✅ Done',
+                'inprogress': '🔄 In Progress',
+                'paused': '⏸️ Paused'
+            };
+            return statusMap[status] || status;
+        }
+
+        function removeWorkItem(index) {
+            workItems.splice(index, 1);
+            renderWorkItems();
+            showNotification('Work item removed', 'info');
+        }
+
+        function generateReport() {
+            if (workItems.length === 0) {
+                showNotification('No work items to generate report', 'warning');
+                return;
+            }
+
+            const today = new Date();
+            const dateStr = today.toLocaleDateString('en-GB', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric'
+            });
+
+            // Create HTML version for display (with bold formatting)
+            let displayReport = `**Today's Work Update – ${dateStr}**\n\n`;
+            
+            // Create clean version for copying (simple format like your example)
+            let copyableReport = `Today's Work Update – ${dateStr}\n`;
+
+            // Group items by project
+            const projectGroups = {};
+            workItems.forEach(item => {
+                if (!projectGroups[item.projectName]) {
+                    projectGroups[item.projectName] = [];
+                }
+                projectGroups[item.projectName].push(item);
+            });
+
+            // Generate both versions
+            Object.keys(projectGroups).forEach(projectName => {
+                // Display version (with markdown)
+                displayReport += `**${projectName}:**\n`;
+                
+                // Copy version (simple clean format)
+                copyableReport += `${projectName}\n`;
+                
+                projectGroups[projectName].forEach(item => {
+                    const statusText = getStatusText(item.status).replace(/[✅🔄⏸️]/g, '').trim();
+                    
+                    // Display version
+                    if (item.status === 'inprogress') {
+                        displayReport += `• ${item.workDetails} - **${statusText}** (${item.progress}% progress)`;
+                    } else {
+                        displayReport += `• ${item.workDetails} - **${statusText}**`;
+                    }
+                    
+                    // Copy version (simple format like your example)
+                    if (item.status === 'done') {
+                        copyableReport += `${item.workDetails} - ${statusText}\n`;
+                    } else if (item.status === 'inprogress') {
+                        copyableReport += `${item.workDetails} - in progress\n`;
+                    } else if (item.status === 'paused') {
+                        copyableReport += `${item.workDetails} - paused`;
+                        if (item.pauseReason) {
+                            copyableReport += ` (${item.pauseReason})`;
+                        }
+                        copyableReport += '\n';
+                    }
+                    
+                    if (item.pauseReason) {
+                        displayReport += ` - Reason: ${item.pauseReason}`;
+                    }
+                    displayReport += '\n';
+                });
+                displayReport += '\n';
+                copyableReport += '\n';
+            });
+
+            // Add next day plan
+            displayReport += "**📋 NEXT DAY PLAN:**\n";
+            copyableReport += ":clipboard: NEXT DAY PLAN:\n";
+            
+            if (nextDayPlans.length > 0) {
+                nextDayPlans.forEach(plan => {
+                    displayReport += `• ${plan}\n`;
+                    copyableReport += `• ${plan}\n`;
+                });
+            } else {
+                const defaultPlans = [
+                    "Continue with in-progress tasks",
+                    "Resolve paused items",
+                    "[Add specific plans here]"
+                ];
+                defaultPlans.forEach(plan => {
+                    displayReport += `• ${plan}\n`;
+                    copyableReport += `• ${plan}\n`;
+                });
+            }
+
+            // Add static leaving for the day message
+            displayReport += "\n**Leaving for the day - Thank you!**\n";
+            copyableReport += "\nLeaving for the day - Thank you!\n";
+
+            document.getElementById('reportPreview').style.display = 'block';
+            // Store the clean copyable version
+            document.getElementById('reportPreview').dataset.originalText = copyableReport;
+            // Convert markdown to HTML for display
+            const htmlReport = displayReport.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            document.getElementById('reportPreview').innerHTML = htmlReport;
+            
+            showNotification('Report generated successfully!', 'success');
+        }
+
+        function copyReport() {
+            const reportElement = document.getElementById('reportPreview');
+            if (!reportElement.innerHTML) {
+                showNotification('Generate report first!', 'warning');
+                return;
+            }
+
+            // Get the clean copyable version (formatted for Slack/messaging)
+            const copyableText = reportElement.dataset.originalText;
+            
+            if (!copyableText) {
+                showNotification('Please generate the report first!', 'warning');
+                return;
+            }
+            
+            navigator.clipboard.writeText(copyableText).then(() => {
+                showNotification('✅ Report copied! Ready to paste in Slack/Teams/Email', 'success');
+            }).catch(() => {
+                showNotification('Failed to copy report', 'error');
+            });
+        }
+
+        function showNotification(message, type) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 25px;
+                border-radius: 8px;
+                color: white;
+                font-weight: 600;
+                z-index: 1000;
+                animation: slideInRight 0.3s ease;
+            `;
+
+            // Set color based on type
+            const colors = {
+                success: '#10b981',
+                error: '#ef4444',
+                warning: '#f59e0b',
+                info: '#3b82f6'
+            };
+            
+            notification.style.background = colors[type] || colors.info;
+            notification.textContent = message;
+
+            document.body.appendChild(notification);
+
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Add CSS animation for notifications
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideInRight {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
