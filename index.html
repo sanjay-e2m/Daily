@@ -601,8 +601,15 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>📝 Daily Work Update Tool</h1>
-            <p>Track your progress, manage tasks, and generate professional reports</p>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h1>📝 Daily Work Update Tool</h1>
+                    <p>Track your progress, manage tasks, and generate professional reports</p>
+                </div>
+                <div>
+                    <button class="btn" style="background: #ef4444;" onclick="clearAll()">Reset All Data</button>
+                </div>
+            </div>
         </div>
 
         <div class="main-content">
@@ -1020,19 +1027,17 @@
         }
         
         function clearAll() {
-            if (confirm('Are you sure you want to clear all data? This action cannot be undone.')) {
-                workItems = [];
-                projects.clear();
-                nextDayPlans = [];
-                editingIndex = -1;
-                
-                renderWorkItems();
-                
-                // Clear report preview
-                document.getElementById('reportPreview').style.display = 'none';
-                
-                showNotification('All data cleared successfully!', 'info');
-            }
+            workItems = [];
+            projects.clear();
+            nextDayPlans = [];
+            editingIndex = -1;
+            
+            renderWorkItems();
+            
+            // Clear report preview
+            document.getElementById('reportPreview').style.display = 'none';
+            
+            showNotification('✅ All data has been reset! Ready for new tasks.', 'success');
         }
 
         function renderWorkItems() {
@@ -1166,8 +1171,8 @@
             });
 
             // Add next day plan
-            displayReport += "**📋 NEXT DAY PLAN:**\n";
-            copyableReport += ":clipboard: NEXT DAY PLAN:\n";
+            displayReport += "**📋 Next Day Plan:**\n";
+            copyableReport += ":clipboard: Next Day Plan:\n";
             
             if (nextDayPlans.length > 0) {
                 nextDayPlans.forEach(plan => {
