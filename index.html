@@ -5,6 +5,86 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daily Work Update Tool</title>
     <style>
+        :root {
+            --primary-color: #4f46e5;
+            --primary-gradient: linear-gradient(135deg, #4f46e5, #7c3aed);
+            --secondary-color: #10b981;
+            --secondary-gradient: linear-gradient(135deg, #10b981, #34d399);
+            --background-color: #667eea;
+            --background-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --surface-color: #ffffff;
+            --surface-secondary: #f8fafc;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --border-color: #e2e8f0;
+            --error-color: #ef4444;
+            --warning-color: #f59e0b;
+            --success-color: #10b981;
+            --input-bg: #ffffff;
+            --input-text: #1f2937;
+            --modal-bg: #ffffff;
+        }
+
+        [data-theme="dark"] {
+            --primary-color: #6366f1;
+            --primary-gradient: linear-gradient(135deg, #6366f1, #8b5cf6);
+            --secondary-color: #10b981;
+            --secondary-gradient: linear-gradient(135deg, #10b981, #34d399);
+            --background-color: #1f2937;
+            --background-gradient: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+            --surface-color: #374151;
+            --surface-secondary: #4b5563;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --border-color: #6b7280;
+            --error-color: #f87171;
+            --warning-color: #fbbf24;
+            --success-color: #34d399;
+            --input-bg: #4b5563;
+            --input-text: #f9fafb;
+            --modal-bg: #374151;
+        }
+
+        [data-theme="ocean"] {
+            --primary-color: #0ea5e9;
+            --primary-gradient: linear-gradient(135deg, #0ea5e9, #0284c7);
+            --secondary-color: #06b6d4;
+            --secondary-gradient: linear-gradient(135deg, #06b6d4, #0891b2);
+            --background-color: #0c4a6e;
+            --background-gradient: linear-gradient(135deg, #0c4a6e 0%, #075985 100%);
+            --surface-color: #ffffff;
+            --surface-secondary: #f0f9ff;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --border-color: #e2e8f0;
+            --error-color: #ef4444;
+            --warning-color: #f59e0b;
+            --success-color: #10b981;
+            --input-bg: #ffffff;
+            --input-text: #1f2937;
+            --modal-bg: #ffffff;
+        }
+
+        [data-theme="forest"] {
+            --primary-color: #059669;
+            --primary-gradient: linear-gradient(135deg, #059669, #047857);
+            --secondary-color: #65a30d;
+            --secondary-gradient: linear-gradient(135deg, #65a30d, #84cc16);
+            --background-color: #064e3b;
+            --background-gradient: linear-gradient(135deg, #064e3b 0%, #065f46 100%);
+            --surface-color: #ffffff;
+            --surface-secondary: #f0fdf4;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --border-color: #e2e8f0;
+            --error-color: #ef4444;
+            --warning-color: #f59e0b;
+            --success-color: #10b981;
+            --input-bg: #ffffff;
+            --input-text: #1f2937;
+            --modal-bg: #ffffff;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -13,22 +93,25 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--background-gradient);
             min-height: 100vh;
             padding: 20px;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            background: white;
+            background: var(--surface-color);
             border-radius: 20px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
             overflow: hidden;
+            transition: all 0.3s ease;
         }
 
         .header {
-            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            background: var(--primary-gradient);
             color: white;
             padding: 30px;
             text-align: center;
@@ -57,10 +140,11 @@
 
         .output-section {
             padding: 40px;
-            background: white;
+            background: var(--surface-color);
             width: 100%;
             max-width: 1200px;
             margin: 0 auto;
+            color: var(--text-primary);
         }
 
         .form-group {
@@ -71,7 +155,7 @@
             display: block;
             margin-bottom: 8px;
             font-weight: 600;
-            color: #374151;
+            color: var(--text-primary);
             font-size: 0.9rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -82,11 +166,12 @@
         .form-group select {
             width: 100%;
             padding: 12px 16px;
-            border: 2px solid #e5e7eb;
+            border: 2px solid var(--border-color);
             border-radius: 12px;
             font-size: 1rem;
             transition: all 0.3s ease;
-            background: white;
+            background: var(--input-bg);
+            color: var(--input-text);
         }
 
         .form-group input:focus,
@@ -155,7 +240,7 @@
         }
 
         .btn {
-            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            background: var(--primary-gradient);
             color: white;
             border: none;
             padding: 12px 24px;
@@ -174,12 +259,123 @@
         }
 
         .btn-secondary {
-            background: linear-gradient(135deg, #10b981, #34d399);
+            background: var(--secondary-gradient);
             margin-left: 10px;
         }
 
         .btn-secondary:hover {
             box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+        }
+
+        /* Theme Selector Styles */
+        .theme-selector {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            animation: slideDown 0.3s ease;
+        }
+
+        .theme-options {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .theme-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: white;
+            font-weight: 500;
+        }
+
+        .theme-option:hover {
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .theme-option.active {
+            border-color: white;
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .theme-preview {
+            width: 40px;
+            height: 30px;
+            border-radius: 6px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .light-preview {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .dark-preview {
+            background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+        }
+
+        .ocean-preview {
+            background: linear-gradient(135deg, #0c4a6e 0%, #075985 100%);
+        }
+
+        .forest-preview {
+            background: linear-gradient(135deg, #064e3b 0%, #065f46 100%);
+        }
+
+        .work-item {
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin-bottom: 12px;
+            transition: all 0.3s ease;
+            cursor: move;
+            user-select: none;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            display: grid;
+            grid-template-columns: auto 1fr 120px 120px 120px;
+            gap: 16px;
+            align-items: center;
+            min-height: 60px;
+        }
+
+        .work-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary-color);
+        }
+
+        .work-item.dragging {
+            opacity: 0.5;
+            transform: rotate(5deg);
+            z-index: 1000;
+        }
+
+        .work-item.drag-over {
+            border-color: var(--primary-color);
+            background: var(--surface-color);
+            transform: translateY(-4px);
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .output-header {
@@ -188,11 +384,11 @@
             align-items: center;
             margin-bottom: 30px;
             padding-bottom: 20px;
-            border-bottom: 2px solid #e5e7eb;
+            border-bottom: 2px solid var(--border-color);
         }
 
         .output-header h2 {
-            color: #1f2937;
+            color: var(--text-primary);
             font-size: 1.5rem;
         }
 
@@ -288,70 +484,139 @@
 
         .task-actions {
             display: flex;
-            gap: 8px;
-            margin-top: 15px;
-            flex-wrap: wrap;
+            gap: 6px;
+            align-items: center;
+            justify-content: center;
+            width: 120px;
         }
-        
+
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            padding: 5px 8px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            text-transform: capitalize;
+            letter-spacing: 0.3px;
+            min-width: 50px;
+            justify-content: center;
+        }
+
         .edit-btn {
-            background: #4f46e5;
+            background: var(--primary-gradient);
             color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: 500;
-            transition: all 0.3s ease;
         }
-        
-        .edit-btn:hover {
-            background: #3730a3;
-            transform: translateY(-1px);
-        }
-        
+
         .remove-btn {
-            background: #ef4444;
+            background: linear-gradient(135deg, var(--error-color), #f87171);
             color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: 500;
-            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .edit-btn:hover {
+            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
         }
 
         .remove-btn:hover {
-            background: #dc2626;
-            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
         }
 
-        .work-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-        }
-
-        .work-item-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .work-item-title {
-            font-weight: 700;
-            color: #1f2937;
+        .btn-icon {
             font-size: 1.1rem;
         }
 
-        .status-badge {
-            padding: 6px 12px;
-            border-radius: 20px;
+        .btn-text {
+            font-weight: 600;
+        }
+
+
+
+        .work-item-index {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background: var(--primary-gradient);
+            color: white;
+            border-radius: 50%;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .work-item-project-section {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .work-item-project {
+            font-weight: 600;
+            color: var(--primary-color);
+            font-size: 1rem;
+        }
+
+        .work-item-details {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            line-height: 1.3;
+            opacity: 0.8;
+        }
+
+        .work-item-progress {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 120px;
+        }
+
+        .progress-display {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .progress-bar-inline {
+            width: 60px;
+            height: 6px;
+            background: var(--border-color);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill-inline {
+            height: 100%;
+            background: var(--primary-gradient);
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text-inline {
             font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            min-width: 35px;
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 0.75rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            width: 120px;
+            text-align: center;
         }
 
         .status-done {
@@ -413,12 +678,12 @@
         .export-section {
             margin-top: 30px;
             padding-top: 30px;
-            border-top: 2px solid #e5e7eb;
+            border-top: 2px solid var(--border-color);
         }
 
         .export-preview {
-            background: #1f2937;
-            color: #f9fafb;
+            background: var(--text-primary);
+            color: var(--surface-color);
             padding: 20px;
             border-radius: 12px;
             font-family: 'Courier New', monospace;
@@ -472,14 +737,52 @@
                 padding: 15px;
             }
             
-            .work-item-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
+            .table-header {
+                display: none !important;
             }
             
-            .status-badge {
-                align-self: flex-start;
+            .work-item {
+                grid-template-columns: 1fr;
+                gap: 12px;
+                padding: 12px 16px;
+            }
+            
+            .work-item-index {
+                display: none;
+            }
+            
+            .work-item-project-section {
+                display: block;
+            }
+            
+            .work-item-project {
+                font-size: 1.1rem;
+                font-weight: 700;
+                color: var(--primary-color);
+                margin-bottom: 6px;
+            }
+            
+            .work-item-details {
+                font-size: 0.9rem;
+                margin-bottom: 12px;
+            }
+            
+            .work-item-progress {
+                margin-bottom: 12px;
+            }
+            
+            .task-actions {
+                justify-content: center;
+                margin-top: 12px;
+                padding-top: 12px;
+                border-top: 1px solid var(--border-color);
+            }
+            
+            .action-btn {
+                flex: 1;
+                padding: 12px 16px;
+                font-size: 0.85rem;
+                min-width: unset;
             }
             
             .btn {
@@ -490,18 +793,6 @@
             .date-display {
                 font-size: 0.8rem;
                 padding: 6px 12px;
-            }
-            
-            .task-actions {
-                flex-direction: row;
-                gap: 6px;
-            }
-            
-            .edit-btn, .remove-btn {
-                flex: 1;
-                padding: 10px 12px;
-                font-size: 0.8rem;
-                text-align: center;
             }
             
             .work-item-progress {
@@ -529,7 +820,7 @@
         }
 
         .modal-content {
-            background-color: white;
+            background-color: var(--modal-bg);
             margin: 5% auto;
             padding: 0;
             border-radius: 20px;
@@ -537,10 +828,11 @@
             max-width: 600px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             animation: slideIn 0.3s ease;
+            color: var(--text-primary);
         }
 
         .modal-header {
-            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            background: var(--primary-gradient);
             color: white;
             padding: 20px 30px;
             border-radius: 20px 20px 0 0;
@@ -606,8 +898,31 @@
                     <h1>📝 Daily Work Update Tool</h1>
                     <p>Track your progress, manage tasks, and generate professional reports</p>
                 </div>
-                <div>
-                    <button class="btn" style="background: #ef4444;" onclick="clearAll()">Reset All Data</button>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <button class="btn" style="background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3);" onclick="toggleThemeSelector()" id="themeBtn">🎨 Theme</button>
+                    <button class="btn" style="background: var(--error-color);" onclick="clearAll()">Reset All Data</button>
+                </div>
+            </div>
+            
+            <!-- Theme Selector -->
+            <div id="themeSelector" class="theme-selector" style="display: none;">
+                <div class="theme-options">
+                    <button class="theme-option" data-theme="light" onclick="setTheme('light')">
+                        <div class="theme-preview light-preview"></div>
+                        <span>Light</span>
+                    </button>
+                    <button class="theme-option" data-theme="dark" onclick="setTheme('dark')">
+                        <div class="theme-preview dark-preview"></div>
+                        <span>Dark</span>
+                    </button>
+                    <button class="theme-option" data-theme="ocean" onclick="setTheme('ocean')">
+                        <div class="theme-preview ocean-preview"></div>
+                        <span>Ocean</span>
+                    </button>
+                    <button class="theme-option" data-theme="forest" onclick="setTheme('forest')">
+                        <div class="theme-preview forest-preview"></div>
+                        <span>Forest</span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -671,6 +986,15 @@
                 <div class="output-header">
                     <h2>Today's Work Items</h2>
                     <div class="date-display" id="currentDate"></div>
+                </div>
+
+                <!-- Table Header -->
+                <div class="table-header" style="display: grid; grid-template-columns: auto 1fr 120px 120px 120px; gap: 16px; align-items: center; padding: 12px 20px; background: var(--surface-secondary); border-radius: 8px; margin-bottom: 16px; font-weight: 600; font-size: 0.85rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px;">
+                    <div style="text-align: center; width: 32px;">#</div>
+                    <div>Project & Details</div>
+                    <div style="text-align: center;">Progress</div>
+                    <div style="text-align: center;">Status</div>
+                    <div style="text-align: center;">Actions</div>
                 </div>
 
                 <div id="workItemsList">
@@ -761,11 +1085,15 @@
         let projects = new Set();
         let nextDayPlans = [];
         let editingIndex = -1;
+        let currentTheme = 'light';
+        let draggedItem = null;
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
             updateDateDisplay();
             setupEventListeners();
+            loadUserPreferences();
+            setupAccessibility();
         });
 
         function updateDateDisplay() {
@@ -1061,26 +1389,53 @@
             container.innerHTML = workItems.map((item, index) => {
                 console.log('Rendering item:', item); // Debug log
                 return `
-                    <div class="work-item">
-                        <div class="work-item-header">
-                            <div class="work-item-title">${item.projectName || 'No Project'}</div>
-                            <span class="status-badge status-${item.status}">
-                                ${getStatusText(item.status)}
-                            </span>
+                    <div class="work-item" draggable="true" data-index="${index}" 
+                         ondragstart="handleDragStart(event)" 
+                         ondragover="handleDragOver(event)" 
+                         ondrop="handleDrop(event)"
+                         ondragend="handleDragEnd(event)">
+                        
+                        <div class="work-item-index">${index + 1}</div>
+                        
+                        <div class="work-item-project-section">
+                            <div class="work-item-project">${item.projectName || 'No Project'}</div>
+                            <div class="work-item-details">${item.workDetails || 'No details'}</div>
                         </div>
-                        <div class="work-item-details">${item.workDetails || 'No details'}</div>
+                        
                         ${item.status === 'inprogress' ? `
                         <div class="work-item-progress">
-                            <div class="progress-bar" style="width: 200px;">
-                                <div class="progress-fill" style="width: ${item.progress || 0}%"></div>
+                            <div class="progress-display">
+                                <div class="progress-bar-inline">
+                                    <div class="progress-fill-inline" style="width: ${item.progress || 0}%"></div>
+                                </div>
+                                <span class="progress-text-inline">${item.progress || 0}%</span>
                             </div>
-                            <span class="progress-text">${item.progress || 0}%</span>
                         </div>
-                        ` : item.status === 'done' ? `<div class="work-item-progress"><span class="progress-text" style="color: #10b981; font-weight: bold;">✅ Completed</span></div>` : ''}
-                        ${item.pauseReason ? `<div class="pause-reason-text">Reason: ${item.pauseReason}</div>` : ''}
+                        ` : item.status === 'done' ? `
+                        <div class="work-item-progress">
+                            <span style="color: var(--success-color); font-weight: 600; font-size: 0.75rem;">✅ Done</span>
+                        </div>
+                        ` : item.status === 'paused' ? `
+                        <div class="work-item-progress">
+                            <span style="color: var(--error-color); font-weight: 500; font-size: 0.75rem;">⏸️ Paused</span>
+                        </div>
+                        ` : `
+                        <div class="work-item-progress">
+                            <span style="color: var(--text-secondary); font-size: 0.75rem;">-</span>
+                        </div>
+                        `}
+                        
+                        <div class="status-badge status-${item.status}">
+                            ${getStatusText(item.status).replace(/[✅🔄⏸️]/g, '').trim()}
+                        </div>
+                        
                         <div class="task-actions">
-                            <button onclick="openTaskModal(${index})" class="edit-btn">Edit Task</button>
-                            <button onclick="removeWorkItem(${index})" class="remove-btn">Remove</button>
+                            <button onclick="openTaskModal(${index})" class="action-btn edit-btn">
+                                <span class="btn-icon">✏️</span>
+                            </button>
+                            <button onclick="removeWorkItem(${index})" class="action-btn remove-btn">
+                                <span class="btn-icon">🗑️</span>
+                            </button>
                         </div>
                     </div>
                 `;
@@ -1171,7 +1526,7 @@
             });
 
             // Add next day plan
-            displayReport += "**📋 Next Day Plan:**\n";
+            displayReport += "**Next Day Plan:**\n";
             copyableReport += ":clipboard: Next Day Plan:\n";
             
             if (nextDayPlans.length > 0) {
@@ -1270,6 +1625,117 @@
             }
         `;
         document.head.appendChild(style);
+        
+        // Theme Management
+        function toggleThemeSelector() {
+            const selector = document.getElementById('themeSelector');
+            selector.style.display = selector.style.display === 'none' ? 'block' : 'none';
+        }
+        
+        function setTheme(theme) {
+            currentTheme = theme;
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            updateThemeSelector();
+            document.getElementById('themeSelector').style.display = 'none';
+            showNotification(`Theme changed to ${theme}!`, 'success');
+        }
+        
+        function updateThemeSelector() {
+            document.querySelectorAll('.theme-option').forEach(option => {
+                option.classList.remove('active');
+                if (option.dataset.theme === currentTheme) {
+                    option.classList.add('active');
+                }
+            });
+        }
+        
+        function loadUserPreferences() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            setTheme(savedTheme);
+        }
+        
+        // Accessibility Improvements
+        function setupAccessibility() {
+            // Add ARIA labels
+            document.getElementById('themeBtn').setAttribute('aria-label', 'Change theme');
+            document.getElementById('taskModal').setAttribute('aria-modal', 'true');
+            
+            // Add focus management
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Tab') {
+                    const modal = document.getElementById('taskModal');
+                    if (modal.style.display === 'block') {
+                        trapFocus(modal, e);
+                    }
+                }
+            });
+        }
+        
+        function trapFocus(element, event) {
+            const focusableElements = element.querySelectorAll(
+                'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+            );
+            const firstElement = focusableElements[0];
+            const lastElement = focusableElements[focusableElements.length - 1];
+        
+            if (event.shiftKey && document.activeElement === firstElement) {
+                lastElement.focus();
+                event.preventDefault();
+            } else if (!event.shiftKey && document.activeElement === lastElement) {
+                firstElement.focus();
+                event.preventDefault();
+            }
+        }
+        
+        // Drag and Drop Functions
+        function handleDragStart(e) {
+            draggedItem = parseInt(e.target.dataset.index);
+            e.target.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+        }
+        
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+            
+            const targetElement = e.target.closest('.work-item');
+            if (targetElement && !targetElement.classList.contains('dragging')) {
+                targetElement.classList.add('drag-over');
+            }
+        }
+        
+        function handleDrop(e) {
+            e.preventDefault();
+            
+            const targetElement = e.target.closest('.work-item');
+            if (targetElement) {
+                const targetIndex = parseInt(targetElement.dataset.index);
+                
+                if (draggedItem !== null && draggedItem !== targetIndex) {
+                    // Reorder the items
+                    const draggedItemData = workItems[draggedItem];
+                    workItems.splice(draggedItem, 1);
+                    workItems.splice(targetIndex, 0, draggedItemData);
+                    
+                    renderWorkItems();
+                    showNotification('Task reordered successfully!', 'success');
+                }
+            }
+            
+            // Clean up
+            document.querySelectorAll('.work-item').forEach(item => {
+                item.classList.remove('drag-over');
+            });
+        }
+        
+        function handleDragEnd(e) {
+            e.target.classList.remove('dragging');
+            document.querySelectorAll('.work-item').forEach(item => {
+                item.classList.remove('drag-over');
+            });
+            draggedItem = null;
+        }
     </script>
 </body>
 </html>
