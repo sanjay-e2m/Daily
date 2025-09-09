@@ -336,35 +336,58 @@
             background: var(--surface-color);
             border: 1px solid var(--border-color);
             border-radius: 12px;
-            padding: 16px 20px;
-            margin-bottom: 12px;
+            padding: 20px;
+            margin-bottom: 8px;
             transition: all 0.3s ease;
             cursor: move;
             user-select: none;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
             display: grid;
             grid-template-columns: auto 1fr 120px 120px 120px;
-            gap: 16px;
+            gap: 20px;
             align-items: center;
-            min-height: 60px;
+            min-height: 70px;
+            position: relative;
+            overflow: hidden;
         }
 
         .work-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
             border-color: var(--primary-color);
+            background: linear-gradient(135deg, var(--surface-color) 0%, var(--surface-secondary) 100%);
+        }
+
+        .work-item-even {
+            background: var(--surface-color);
+        }
+
+        .work-item-odd {
+            background: linear-gradient(135deg, var(--surface-color) 0%, rgba(255, 255, 255, 0.5) 100%);
+        }
+
+        [data-theme="dark"] .work-item-odd {
+            background: linear-gradient(135deg, var(--surface-color) 0%, rgba(75, 85, 99, 0.3) 100%);
         }
 
         .work-item.dragging {
-            opacity: 0.5;
-            transform: rotate(5deg);
+            opacity: 0.7;
+            transform: rotate(3deg) scale(1.02);
             z-index: 1000;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
         }
 
         .work-item.drag-over {
             border-color: var(--primary-color);
-            background: var(--surface-color);
-            transform: translateY(-4px);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 10px 35px rgba(79, 70, 229, 0.3);
+        }
+
+        .work-item.drag-over .work-item-project,
+        .work-item.drag-over .work-item-details {
+            color: white;
         }
 
         @keyframes slideDown {
@@ -493,42 +516,59 @@
         .action-btn {
             display: inline-flex;
             align-items: center;
-            gap: 3px;
-            padding: 5px 8px;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
             border: none;
-            border-radius: 6px;
-            font-weight: 500;
-            font-size: 0.7rem;
+            border-radius: 10px;
+            font-size: 1rem;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            text-transform: capitalize;
-            letter-spacing: 0.3px;
-            min-width: 50px;
-            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .action-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .action-btn:hover::before {
+            opacity: 1;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px) scale(1.05);
         }
 
         .edit-btn {
             background: var(--primary-gradient);
             color: white;
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
         }
 
         .remove-btn {
             background: linear-gradient(135deg, var(--error-color), #f87171);
             color: white;
-        }
-
-        .action-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
         }
 
         .edit-btn:hover {
-            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
+            box-shadow: 0 6px 25px rgba(79, 70, 229, 0.4);
+            background: linear-gradient(135deg, #6366f1, #4f46e5);
         }
 
         .remove-btn:hover {
-            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+            box-shadow: 0 6px 25px rgba(239, 68, 68, 0.4);
+            background: linear-gradient(135deg, #f87171, #ef4444);
         }
 
         .btn-icon {
@@ -545,32 +585,68 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 32px;
-            height: 32px;
+            width: 40px;
+            height: 40px;
             background: var(--primary-gradient);
             color: white;
             border-radius: 50%;
-            font-weight: 600;
-            font-size: 0.9rem;
+            font-weight: 700;
+            font-size: 1rem;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+            position: relative;
+        }
+
+        .work-item-index::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: var(--primary-gradient);
+            border-radius: 50%;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .work-item:hover .work-item-index::before {
+            opacity: 0.3;
         }
 
         .work-item-project-section {
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 6px;
         }
 
         .work-item-project {
-            font-weight: 600;
+            font-weight: 700;
             color: var(--primary-color);
-            font-size: 1rem;
+            font-size: 1.1rem;
+            position: relative;
+            padding-left: 12px;
+        }
+
+        .work-item-project::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 20px;
+            background: var(--primary-gradient);
+            border-radius: 2px;
         }
 
         .work-item-details {
             color: var(--text-secondary);
-            font-size: 0.85rem;
-            line-height: 1.3;
-            opacity: 0.8;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            opacity: 0.85;
+            padding-left: 12px;
+            font-style: italic;
         }
 
         .work-item-progress {
@@ -587,36 +663,74 @@
         }
 
         .progress-bar-inline {
-            width: 60px;
-            height: 6px;
+            width: 70px;
+            height: 8px;
             background: var(--border-color);
-            border-radius: 3px;
+            border-radius: 4px;
             overflow: hidden;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
         .progress-fill-inline {
             height: 100%;
             background: var(--primary-gradient);
-            border-radius: 3px;
-            transition: width 0.3s ease;
+            border-radius: 4px;
+            transition: width 0.5s ease;
+            position: relative;
+        }
+
+        .progress-fill-inline::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
 
         .progress-text-inline {
             font-size: 0.8rem;
-            font-weight: 500;
-            color: var(--text-secondary);
-            min-width: 35px;
+            font-weight: 600;
+            color: var(--primary-color);
+            min-width: 40px;
+            text-align: center;
         }
 
         .status-badge {
-            padding: 4px 12px;
-            border-radius: 16px;
+            padding: 8px 16px;
+            border-radius: 20px;
             font-size: 0.75rem;
-            font-weight: 600;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
             width: 120px;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .status-badge::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .work-item:hover .status-badge::before {
+            left: 100%;
         }
 
         .status-done {
@@ -989,9 +1103,9 @@
                 </div>
 
                 <!-- Table Header -->
-                <div class="table-header" style="display: grid; grid-template-columns: auto 1fr 120px 120px 120px; gap: 16px; align-items: center; padding: 12px 20px; background: var(--surface-secondary); border-radius: 8px; margin-bottom: 16px; font-weight: 600; font-size: 0.85rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px;">
-                    <div style="text-align: center; width: 32px;">#</div>
-                    <div>Project & Details</div>
+                <div class="table-header" style="display: grid; grid-template-columns: auto 1fr 120px 120px 120px; gap: 20px; align-items: center; padding: 16px 20px; background: linear-gradient(135deg, var(--surface-secondary), var(--surface-color)); border-radius: 12px; margin-bottom: 20px; font-weight: 700; font-size: 0.85rem; color: var(--text-primary); text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08); border: 1px solid var(--border-color);">
+                    <div style="text-align: center; width: 40px;">#</div>
+                    <div style="position: relative; padding-left: 12px;">Project & Details</div>
                     <div style="text-align: center;">Progress</div>
                     <div style="text-align: center;">Status</div>
                     <div style="text-align: center;">Actions</div>
@@ -1388,8 +1502,9 @@
 
             container.innerHTML = workItems.map((item, index) => {
                 console.log('Rendering item:', item); // Debug log
+                const isEven = index % 2 === 0;
                 return `
-                    <div class="work-item" draggable="true" data-index="${index}" 
+                    <div class="work-item ${isEven ? 'work-item-even' : 'work-item-odd'}" draggable="true" data-index="${index}" 
                          ondragstart="handleDragStart(event)" 
                          ondragover="handleDragOver(event)" 
                          ondrop="handleDrop(event)"
@@ -1413,15 +1528,19 @@
                         </div>
                         ` : item.status === 'done' ? `
                         <div class="work-item-progress">
-                            <span style="color: var(--success-color); font-weight: 600; font-size: 0.75rem;">✅ Done</span>
+                            <span style="color: var(--success-color); font-weight: 700; font-size: 0.85rem; display: flex; align-items: center; justify-content: center; gap: 4px;">
+                                <span style="font-size: 1.1rem;">✅</span> Done
+                            </span>
                         </div>
                         ` : item.status === 'paused' ? `
                         <div class="work-item-progress">
-                            <span style="color: var(--error-color); font-weight: 500; font-size: 0.75rem;">⏸️ Paused</span>
+                            <span style="color: var(--error-color); font-weight: 600; font-size: 0.85rem; display: flex; align-items: center; justify-content: center; gap: 4px;">
+                                <span style="font-size: 1.1rem;">⏸️</span> Paused
+                            </span>
                         </div>
                         ` : `
                         <div class="work-item-progress">
-                            <span style="color: var(--text-secondary); font-size: 0.75rem;">-</span>
+                            <span style="color: var(--text-secondary); font-size: 0.85rem; text-align: center;">—</span>
                         </div>
                         `}
                         
@@ -1431,10 +1550,10 @@
                         
                         <div class="task-actions">
                             <button onclick="openTaskModal(${index})" class="action-btn edit-btn">
-                                <span class="btn-icon">✏️</span>
+                                <span class="btn-icon" style="font-size: 1.1rem;">✏️</span>
                             </button>
                             <button onclick="removeWorkItem(${index})" class="action-btn remove-btn">
-                                <span class="btn-icon">🗑️</span>
+                                <span class="btn-icon" style="font-size: 1.1rem;">🗑️</span>
                             </button>
                         </div>
                     </div>
