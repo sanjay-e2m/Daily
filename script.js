@@ -459,9 +459,7 @@ function generateReport() {
         });
     } else {
         const defaultPlans = [
-            "Continue with in-progress tasks",
-            "Resolve paused items",
-            "[Add specific plans here]"
+            "Continue with in-progress tasks"
         ];
         defaultPlans.forEach(plan => {
             displayReport += `• ${plan}\n`;
